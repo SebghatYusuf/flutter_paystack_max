@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +66,7 @@ class _PaymentModelWidgetState extends State<PaymentModelWidget>
 
             /// Prevent navigation when the user chooses to pay with USSD
             /// and taps on the USSD Code
+            log('url: $url', name: "NavigationURL");
             if (url.contains('tel:')) {
               final uri = Uri.parse(url);
               // Open the url on phone
@@ -76,7 +79,12 @@ class _PaymentModelWidgetState extends State<PaymentModelWidget>
               return NavigationDecision.prevent;
             }
 
-            if (url.endsWith('cancel')) {
+            if (url.contains('cancel')) {
+              Navigator.pop(context);
+
+              return NavigationDecision.prevent;
+            }
+            if (url.contains('close')) {
               Navigator.pop(context);
 
               return NavigationDecision.prevent;
